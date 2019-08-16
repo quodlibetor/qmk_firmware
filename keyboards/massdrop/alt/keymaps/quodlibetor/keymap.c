@@ -65,6 +65,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+    // the properties of scroll-effect 4 => explode
+    led_animation_direction = 0;
+    led_animation_orientation = 0;
+    led_animation_circular = 1;
+
+    // slow and dim
+    led_animation_speed = 0.3;
+    led_edge_brightness = 0.1;
+    gcr_desired = 40;
 };
 
 // Runs constantly in the background, in a loop.
@@ -77,7 +86,7 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint32_t key_timer;
-    static uint8_t scroll_effect = 0;
+    static uint8_t scroll_effect = 4;
 
     switch (keycode) {
         case L_BRI:
