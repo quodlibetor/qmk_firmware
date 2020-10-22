@@ -199,7 +199,6 @@ void matrix_init_user(void) {
 };
 
 // /tmk_core/protocol/arm_atsam/led_matrix.c: line 244
-uint8_t led_enabled;
 float led_animation_speed;
 uint8_t led_animation_direction;
 uint8_t led_animation_orientation;
@@ -310,7 +309,7 @@ void led_matrix_run(void)
                 }
 
                 float pomod;
-                pomod = (float)(g_tick % (uint32_t)(1000.0f / led_animation_speed)) / 10.0f * led_animation_speed;
+                pomod = (float)(led_matrix_get_tick() % (uint32_t)(1000.0f / led_animation_speed)) / 10.0f * led_animation_speed;
 
                 //Add in any moving effects
                 if ((!led_animation_direction && f[fcur].ef & EF_SCR_R) || (led_animation_direction && (f[fcur].ef & EF_SCR_L)))
@@ -386,19 +385,19 @@ void led_matrix_run(void)
         {
             uint8_t kbled = keyboard_leds();
             if (
-                #if USB_LED_NUM_LOCK_SCANCODE != 255
+                #ifdef USB_LED_NUM_LOCK_SCANCODE
                 (led_cur->scan == USB_LED_NUM_LOCK_SCANCODE && kbled & (1<<USB_LED_NUM_LOCK)) ||
                 #endif //NUM LOCK
-                #if USB_LED_CAPS_LOCK_SCANCODE != 255
+                #ifdef USB_LED_CAPS_LOCK_SCANCODE
                 (led_cur->scan == USB_LED_CAPS_LOCK_SCANCODE && kbled & (1<<USB_LED_CAPS_LOCK)) ||
                 #endif //CAPS LOCK
-                #if USB_LED_SCROLL_LOCK_SCANCODE != 255
+                #ifdef USB_LED_SCROLL_LOCK_SCANCODE
                 (led_cur->scan == USB_LED_SCROLL_LOCK_SCANCODE && kbled & (1<<USB_LED_SCROLL_LOCK)) ||
                 #endif //SCROLL LOCK
-                #if USB_LED_COMPOSE_SCANCODE != 255
+                #ifdef USB_LED_COMPOSE_SCANCODE
                 (led_cur->scan == USB_LED_COMPOSE_SCANCODE && kbled & (1<<USB_LED_COMPOSE)) ||
                 #endif //COMPOSE
-                #if USB_LED_KANA_SCANCODE != 255
+                #ifdef USB_LED_KANA_SCANCODE
                 (led_cur->scan == USB_LED_KANA_SCANCODE && kbled & (1<<USB_LED_KANA)) ||
                 #endif //KANA
                 (0))
@@ -745,20 +744,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case L_T_ONF:
             if (record->event.pressed) {
-                led_enabled = !led_enabled;
-                I2C3733_Control_Set(led_enabled);
+                I2C3733_Control_Set(!I2C3733_Control_Get());
             }
             return false;
         case L_ON:
             if (record->event.pressed) {
-                led_enabled = 1;
-                I2C3733_Control_Set(led_enabled);
+                I2C3733_Control_Set(1);
             }
             return false;
         case L_OFF:
             if (record->event.pressed) {
-                led_enabled = 0;
-                I2C3733_Control_Set(led_enabled);
+                I2C3733_Control_Set(0);
             }
             return false;
         case L_T_BR:

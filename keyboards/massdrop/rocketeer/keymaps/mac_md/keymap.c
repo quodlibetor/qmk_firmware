@@ -10,6 +10,8 @@ enum rocketeer_keycodes {
     L_PTP,              //LED Pattern Select Previous
     L_PSI,              //LED Pattern Speed Increase
     L_PSD,              //LED Pattern Speed Decrease
+    L_RATIOD,
+    L_RATIOI,
     L_T_MD,             //LED Toggle Mode
     L_T_ONF,            //LED Toggle On / Off
     L_ON,               //LED On
@@ -104,6 +106,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 led_edge_brightness -= 0.1;
                 if (led_edge_brightness < 0) { led_edge_brightness = 0; }
+            }
+            return false;
+        case L_RATIOI:
+            if (record->event.pressed) {
+                led_ratio_brightness += 0.2;
+                if (led_ratio_brightness > 2.0) { led_ratio_brightness = 2.0; }
+            }
+            return false;
+        case L_RATIOD:
+            if (record->event.pressed) {
+                led_ratio_brightness -= 0.2;
+                if (led_ratio_brightness < 0.0) { led_ratio_brightness = 0.0; }
             }
             return false;
         case L_PTN:
@@ -231,7 +245,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 key_timer = timer_read32();
             } else {
-                if (timer_elapsed32(key_timer) >= 500) {
+                if (timer_elapsed32(key_timer) >= BOOTKEY_HOLD_MS) {
                     reset_keyboard();
                 }
             }
