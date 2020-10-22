@@ -100,11 +100,46 @@ led_setup_t leds_rainbow_s[] = {
     { .end = 1 },
 };
 
+//No idea scrolling
+led_setup_t leds_test_s[] = {
+    { .hs = 0,      .he = 33.33,  .rs = 0,   .re = 255, .gs = 255, .ge = 0,   .bs = 0,   .be = 0,   .ef = EF_OVER | EF_SCR_R },
+    { .hs = 33.34,  .he = 66.66,  .rs = 255, .re = 0,   .gs = 0,   .ge = 0,   .bs = 0,   .be = 255, .ef = EF_OVER | EF_SCR_R },
+    { .hs = 66.67,  .he = 100,    .rs = 0,   .re = 0,   .gs = 0,   .ge = 255, .bs = 255, .be = 0, .ef = EF_OVER | EF_SCR_R },
+    { .end = 1 },
+};
+
+//White with materialize colors striped
+led_setup_t leds_mtrlz_stripe[] = {
+    { .hs = 0, .he = 100, .rs = 255, .re = 255, .gs = 255, .ge = 255, .bs = 255, .be = 255, .ef = EF_NONE },
+    // green
+    { .hs = 0, .he = 15,  .rs = 0,   .re = 99,  .gs = 0,   .ge = 25,  .bs = 0,   .be = 126, .ef = EF_SCR_R | EF_SUBTRACT },
+    { .hs = 15, .he = 20, .rs = 99,  .re = 99,  .gs = 25,  .ge = 25,  .bs = 126, .be = 126, .ef = EF_SCR_R | EF_SUBTRACT },
+    { .hs = 20, .he = 40, .rs = 99,  .re = 0,   .gs = 25,  .ge = 0,   .bs = 126, .be = 0,   .ef = EF_SCR_R | EF_SUBTRACT },
+    // purple
+    { .hs = 30, .he = 60, .rs = 0,   .re = 151, .gs = 0,   .ge = 205, .bs = 0,   .be = 39,  .ef = EF_SCR_R | EF_SUBTRACT },
+    { .hs = 60, .he = 90, .rs = 151, .re = 0,   .gs = 205, .ge = 0,   .bs = 39,  .be = 0,   .ef = EF_SCR_R | EF_SUBTRACT },
+    { .end = 1 },
+};
+
+led_setup_t leds_mtrlz_stripe_unsat[] = {
+    { .hs = 0, .he = 100, .rs = 255, .re = 255, .gs = 255, .ge = 255, .bs = 255, .be = 255, .ef = EF_NONE },
+    // green
+    { .hs = 0, .he = 15,  .rs = 0,   .re = 99,  .gs = 0,   .ge = 25,  .bs = 0,   .be = 126, .ef = EF_SCR_R | EF_SUBTRACT },
+    { .hs = 15, .he = 20, .rs = 99,  .re = 99,  .gs = 25,  .ge = 25,  .bs = 126, .be = 126, .ef = EF_SCR_R | EF_SUBTRACT },
+    { .hs = 20, .he = 40, .rs = 99,  .re = 0,   .gs = 25,  .ge = 0,   .bs = 126, .be = 0,   .ef = EF_SCR_R | EF_SUBTRACT },
+    // purple
+    { .hs = 30, .he = 60, .rs = 0,   .re = 120, .gs = 0,   .ge = 162, .bs = 0,   .be = 31,  .ef = EF_SCR_R | EF_SUBTRACT },
+    { .hs = 60, .he = 90, .rs = 120, .re = 0,   .gs = 162, .ge = 0,   .bs = 31,  .be = 0,   .ef = EF_SCR_R | EF_SUBTRACT },
+    { .end = 1 },
+};
+
 //Add new LED animations here using one from above as example
 //The last entry must be { .end = 1 }
 //Add the new animation name to the list below following its format
 
 void *led_setups[] = {
+    leds_mtrlz_stripe_unsat,
+    leds_mtrlz_stripe,
     leds_rainbow_s,
     leds_rainbow_ns,
     leds_teal_salmon,

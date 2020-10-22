@@ -72,8 +72,8 @@ void matrix_init_user(void) {
 
     // slow and dim
     led_animation_speed = 0.3;
-    led_edge_brightness = 0.1;
-    gcr_desired = 40;
+    led_edge_brightness = 0.5;
+    gcr_desired = 100;
 };
 
 // Runs constantly in the background, in a loop.
